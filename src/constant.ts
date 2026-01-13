@@ -47,12 +47,13 @@ export const defaultFilters: Filters = {
   earwax: "earwax",
 };
 
-export const defaultOptions = {
-  plugins: [],
-  emitNewSongOnly: false,
-  savePreviousSongs: true,
-  nsfw: false,
-  emitAddSongWhenCreatingQueue: true,
-  emitAddListWhenCreatingQueue: true,
-  joinNewVoiceChannel: true,
+export const defaultOptions = {  
+  plugins: [],  
+  emitNewSongOnly: false,  
+  savePreviousSongs: true,  
+  nsfw: false,  
+  emitAddSongWhenCreatingQueue: true,  
+  emitAddListWhenCreatingQueue: true,  
+  joinNewVoiceChannel: true,  
+  streamRefreshInterval: 0,  
 } satisfies DisTubeOptions;
