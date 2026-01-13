@@ -74,12 +74,12 @@ export class Song<T = unknown> {
     | {  
         playFromSource: true;  
         url?: string;  
-        fetchedAt?: number;  
+        urlExpiry?: number;  
       }  
     | {  
         playFromSource: false;  
         song?: Song<T>;  
-        fetchedAt?: number;  
+        urlExpiry?: number;  
       };
   /**
    * The plugin that created this song
