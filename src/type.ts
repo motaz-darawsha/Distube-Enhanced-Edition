@@ -106,57 +106,63 @@ export type Filters = Record<string, string>;
 /**
  * DisTube options
  */
-export type DisTubeOptions = {
-  /**
-   * DisTube plugins.
-   * The order of this effects the priority of the plugins when verifying the input.
-   */
-  plugins?: DisTubePlugin[];
-  /**
-   * Whether or not emitting {@link Events.PLAY_SONG} event when looping a song
-   * or next song is the same as the previous one
-   */
-  emitNewSongOnly?: boolean;
-  /**
-   * Whether or not saving the previous songs of the queue and enable {@link
-   * DisTube#previous} method. Disable it may help to reduce the memory usage
-   */
-  savePreviousSongs?: boolean;
-  /**
-   * Override {@link defaultFilters} or add more ffmpeg filters
-   */
-  customFilters?: Filters;
-  /**
-   * Whether or not playing age-restricted content and disabling safe search in
-   * non-NSFW channel
-   */
-  nsfw?: boolean;
-  /**
-   * Whether or not emitting `addSong` event when creating a new Queue
-   */
-  emitAddSongWhenCreatingQueue?: boolean;
-  /**
-   * Whether or not emitting `addList` event when creating a new Queue
-   */
-  emitAddListWhenCreatingQueue?: boolean;
-  /**
-   * Whether or not joining the new voice channel when using {@link DisTube#play}
-   * method
-   */
-  joinNewVoiceChannel?: boolean;
-  /**
-   * FFmpeg options
-   */
-  ffmpeg?: {
-    /**
-     * FFmpeg path
-     */
-    path?: string;
-    /**
-     * FFmpeg default arguments
-     */
-    args?: Partial<FFmpegArgs>;
-  };
+export type DisTubeOptions = {  
+  /**  
+   * DisTube plugins.  
+   * The order of this effects the priority of the plugins when verifying the input.  
+   */  
+  plugins?: DisTubePlugin[];  
+  /**  
+   * Whether or not emitting {@link Events.PLAY_SONG} event when looping a song  
+   * or next song is the same as the previous one  
+   */  
+  emitNewSongOnly?: boolean;  
+  /**  
+   * Whether or not saving the previous songs of the queue and enable {@link  
+   * DisTube#previous} method. Disable it may help to reduce the memory usage  
+   */  
+  savePreviousSongs?: boolean;  
+  /**  
+   * Override {@link defaultFilters} or add more ffmpeg filters  
+   */  
+  customFilters?: Filters;  
+  /**  
+   * Whether or not playing age-restricted content and disabling safe search in  
+   * non-NSFW channel  
+   */  
+  nsfw?: boolean;  
+  /**  
+   * Whether or not emitting `addSong` event when creating a new Queue  
+   */  
+  emitAddSongWhenCreatingQueue?: boolean;  
+  /**  
+   * Whether or not emitting `addList` event when creating a new Queue  
+   */  
+  emitAddListWhenCreatingQueue?: boolean;  
+  /**  
+   * Whether or not joining the new voice channel when using {@link DisTube#play}  
+   * method  
+   */  
+  joinNewVoiceChannel?: boolean;  
+  /**  
+   * Interval in milliseconds to refresh stream URLs for RepeatMode.SONG  
+   * Set to 0 to disable auto refresh  
+   * @default 0  
+   */  
+  streamRefreshInterval?: number;  
+  /**  
+   * FFmpeg options  
+   */  
+  ffmpeg?: {  
+    /**  
+     * FFmpeg path  
+     */  
+    path?: string;  
+    /**  
+     * FFmpeg default arguments  
+     */  
+    args?: Partial<FFmpegArgs>;  
+  };  
 };
 
 /**
