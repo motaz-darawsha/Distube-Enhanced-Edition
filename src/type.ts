@@ -145,11 +145,11 @@ export type DisTubeOptions = {
    */  
   joinNewVoiceChannel?: boolean;  
   /**  
-   * Interval in milliseconds to refresh stream URLs for RepeatMode.SONG  
-   * Set to 0 to disable auto refresh  
-   * @default 0  
+ * Auto refresh option for stream URLs  
+ * Set to false to disable auto refresh  
+ * @default false  
    */  
-  streamRefreshInterval?: number;  
+  autoRefresh?: boolean;
   /**  
    * FFmpeg options  
    */  
