@@ -94,27 +94,29 @@ export class DisTubeHandler extends DisTubeBase {
    * Get {@link Song}'s stream info and attach it to the song.
    * @param song - A Song
    */
-  async attachStreamInfo(song: Song) {
-    if (song.stream.playFromSource) {
-      if (song.stream.url) return;
-      this.debug(`[DisTubeHandler] Getting stream info: ${song}`);
-      const plugin = await this._getPluginFromSong(song, [PluginType.EXTRACTOR, PluginType.PLAYABLE_EXTRACTOR]);
-      if (!plugin) throw new DisTubeError("NOT_SUPPORTED_SONG", song.toString());
-      this.debug(`[${plugin.constructor.name}] Getting stream URL: ${song}`);
-      song.stream.url = await plugin.getStreamURL(song);
-      if (!song.stream.url) throw new DisTubeError("CANNOT_GET_STREAM_URL", song.toString());
-    } else {
-      if (song.stream.song?.stream?.playFromSource && song.stream.song.stream.url) return;
-      this.debug(`[DisTubeHandler] Getting stream info: ${song}`);
-      const plugin = await this._getPluginFromSong(song, [PluginType.INFO_EXTRACTOR]);
-      if (!plugin) throw new DisTubeError("NOT_SUPPORTED_SONG", song.toString());
-      this.debug(`[${plugin.constructor.name}] Creating search query for: ${song}`);
-      const query = await plugin.createSearchQuery(song);
-      if (!query) throw new DisTubeError("CANNOT_GET_SEARCH_QUERY", song.toString());
-      const altSong = await this.#searchSong(query, { metadata: song.metadata, member: song.member }, true);
-      if (!altSong || !altSong.stream.playFromSource) throw new DisTubeError("NO_RESULT", query || song.toString());
-      song.stream.song = altSong;
-    }
+  async attachStreamInfo(song: Song) {  
+    if (song.stream.playFromSource) {  
+      if (song.stream.url) return;  
+      this.debug(`[DisTubeHandler] Getting stream info: ${song}`);  
+      const plugin = await this._getPluginFromSong(song, [PluginType.EXTRACTOR, PluginType.PLAYABLE_EXTRACTOR]);  
+      if (!plugin) throw new DisTubeError("NOT_SUPPORTED_SONG", song.toString());  
+      this.debug(`[${plugin.constructor.name}] Getting stream URL: ${song}`);  
+      song.stream.url = await plugin.getStreamURL(song);  
+      song.stream.fetchedAt = Date.now();  
+      if (!song.stream.url) throw new DisTubeError("CANNOT_GET_STREAM_URL", song.toString());  
+    } else {  
+      if (song.stream.song?.stream?.playFromSource && song.stream.song.stream.url) return;  
+      this.debug(`[DisTubeHandler] Getting stream info: ${song}`);  
+      const plugin = await this._getPluginFromSong(song, [PluginType.INFO_EXTRACTOR]);  
+      if (!plugin) throw new DisTubeError("NOT_SUPPORTED_SONG", song.toString());  
+      this.debug(`[${plugin.constructor.name}] Creating search query for: ${song}`);  
+      const query = await plugin.createSearchQuery(song);  
+      if (!query) throw new DisTubeError("CANNOT_GET_SEARCH_QUERY", song.toString());  
+      const altSong = await this.#searchSong(query, { metadata: song.metadata, member: song.member }, true);  
+      if (!altSong || !altSong.stream.playFromSource) throw new DisTubeError("NO_RESULT", query || song.toString());  
+      song.stream.song = altSong;  
+      song.stream.fetchedAt = Date.now();  
+    }  
   }
 
   async followRedirectLink(url: string, maxRedirect = MAX_REDIRECT_DEPTH): Promise<string> {
