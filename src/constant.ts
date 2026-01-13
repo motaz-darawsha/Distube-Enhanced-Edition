@@ -55,5 +55,5 @@ export const defaultOptions = {
   emitAddSongWhenCreatingQueue: true,  
   emitAddListWhenCreatingQueue: true,  
   joinNewVoiceChannel: true,  
-  streamRefreshInterval: 0,  
+  autoRefresh: false,  
 } satisfies DisTubeOptions;
