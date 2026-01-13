@@ -74,7 +74,7 @@ export class QueueManager extends GuildIdManager<Queue> {
         if (playedSong?.stream.playFromSource && playedSong.stream.urlExpiry) {  
           const now = Date.now();  
           if (now >= playedSong.stream.urlExpiry - 120000) {  
-            this.debug(`[QueueManager] Refreshing expired stream URL for song: ${song}`);  
+            this.debug(`\x1b[32m[QueueManager] Refreshing expired stream URL for song: ${song}\x1b[0m`);  
             delete playedSong.stream.url;  
             delete playedSong.stream.urlExpiry;  
           }  
