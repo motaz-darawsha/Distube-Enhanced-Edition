@@ -12,7 +12,7 @@ export class Options {
   emitAddSongWhenCreatingQueue: boolean;  
   emitAddListWhenCreatingQueue: boolean;  
   joinNewVoiceChannel: boolean;  
-  streamRefreshInterval: number;  
+  autoRefresh: boolean;  
   ffmpeg: FFmpegOptions;  
   constructor(options: DisTubeOptions) {  
     if (typeof options !== "object" || Array.isArray(options)) {  
@@ -27,7 +27,7 @@ export class Options {
     this.emitAddSongWhenCreatingQueue = opts.emitAddSongWhenCreatingQueue;  
     this.emitAddListWhenCreatingQueue = opts.emitAddListWhenCreatingQueue;  
     this.joinNewVoiceChannel = opts.joinNewVoiceChannel;  
-    this.streamRefreshInterval = opts.streamRefreshInterval ?? 0;  
+    this.autoRefresh = opts.autoRefresh ?? false;  
     this.ffmpeg = this.#ffmpegOption(options);  
     checkInvalidKey(opts, this, "DisTubeOptions");  
     this.#validateOptions();  
@@ -41,10 +41,9 @@ export class Options {
       "nsfw",  
       "emitAddSongWhenCreatingQueue",  
       "emitAddListWhenCreatingQueue",  
+      "autoRefresh",  
     ]);  
-    const numberOptions = new Set([  
-      "streamRefreshInterval",  
-    ]);  
+    const numberOptions = new Set();  
     const stringOptions = new Set();  
     const objectOptions = new Set(["customFilters", "ffmpeg"]);  
     const optionalOptions = new Set(["customFilters"]);  
