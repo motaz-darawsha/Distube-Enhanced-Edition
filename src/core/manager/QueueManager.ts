@@ -55,56 +55,68 @@ export class QueueManager extends GuildIdManager<Queue> {
    * Handle the queue when a Song finish
    * @param queue - queue
    */
-  async handleSongFinish(queue: Queue): Promise<void> {
-    if (queue._manualUpdate) {
-      queue._manualUpdate = false;
-      await this.playSong(queue);
-      return;
-    }
-    this.debug(`[QueueManager] Handling song finish: ${queue.id}`);
-    const song = queue.songs[0];
-    this.emit(Events.FINISH_SONG, queue, song);
-    await queue._taskQueue.queuing();
-    try {
-      if (queue.stopped) return;
-      if (queue.repeatMode === RepeatMode.QUEUE) queue.songs.push(song);
-
-      if (queue.repeatMode !== RepeatMode.SONG) {
-        const prev = queue.songs.shift() as Song;
-        if (this.options.savePreviousSongs) queue.previousSongs.push(prev);
-        else queue.previousSongs.push({ id: prev.id } as Song);
-      }
-
-      if (queue.songs.length === 0 && queue.autoplay) {
-        try {
-          this.debug(`[QueueManager] Adding related song: ${queue.id}`);
-          await queue._addRelatedSong(song);
-        } catch (e: unknown) {
-          const errorMessage = e instanceof Error ? e.message : String(e);
-          this.debug(`[${queue.id}] Add related song error: ${errorMessage}`);
-          if (e instanceof DisTubeError) {
-            this.emit(Events.NO_RELATED, queue, e);
-          } else {
-            this.emit(Events.NO_RELATED, queue, new DisTubeError("NO_RELATED"));
-          }
-        }
-      }
-
-      if (queue.songs.length === 0) {
-        this.debug(`[${queue.id}] Queue is empty, stopping...`);
-        if (!queue.autoplay) this.emit(Events.FINISH, queue);
-        queue.remove();
-        return;
-      }
-
-      if (song !== queue.songs[0]) {
-        const playedSong = song.stream.playFromSource ? song : song.stream.song;
-        if (playedSong?.stream.playFromSource) delete playedSong.stream.url;
-      }
-      await this.playSong(queue, true);
-    } finally {
-      queue._taskQueue.resolve();
-    }
+  async handleSongFinish(queue: Queue): Promise<void> {  
+    if (queue._manualUpdate) {  
+      queue._manualUpdate = false;  
+      await this.playSong(queue);  
+      return;  
+    }  
+    this.debug(`[QueueManager] Handling song finish: ${queue.id}`);  
+    const song = queue.songs[0];  
+    this.emit(Events.FINISH_SONG, queue, song);  
+    await queue._taskQueue.queuing();  
+    try {  
+      if (queue.stopped) return;  
+      if (queue.repeatMode === RepeatMode.QUEUE) queue.songs.push(song);  
+  
+      if (queue.repeatMode === RepeatMode.SONG && this.options.streamRefreshInterval > 0) {  
+        const playedSong = song.stream.playFromSource ? song : song.stream.song;  
+        if (playedSong?.stream.playFromSource && playedSong.stream.fetchedAt) {  
+          const urlAge = Date.now() - playedSong.stream.fetchedAt;  
+          if (urlAge >= this.options.streamRefreshInterval) {  
+            this.debug(`[QueueManager] Refreshing expired stream URL for song: ${song}`);  
+            delete playedSong.stream.url;  
+            delete playedSong.stream.fetchedAt;  
+          }  
+        }  
+      }  
+  
+      if (queue.repeatMode !== RepeatMode.SONG) {  
+        const prev = queue.songs.shift() as Song;  
+        if (this.options.savePreviousSongs) queue.previousSongs.push(prev);  
+        else queue.previousSongs.push({ id: prev.id } as Song);  
+      }  
+  
+      if (queue.songs.length === 0 && queue.autoplay) {  
+        try {  
+          this.debug(`[QueueManager] Adding related song: ${queue.id}`);  
+          await queue._addRelatedSong(song);  
+        } catch (e: unknown) {  
+          const errorMessage = e instanceof Error ? e.message : String(e);  
+          this.debug(`[${queue.id}] Add related song error: ${errorMessage}`);  
+          if (e instanceof DisTubeError) {  
+            this.emit(Events.NO_RELATED, queue, e);  
+          } else {  
+            this.emit(Events.NO_RELATED, queue, new DisTubeError("NO_RELATED"));  
+          }  
+        }  
+      }  
+  
+      if (queue.songs.length === 0) {  
+        this.debug(`[${queue.id}] Queue is empty, stopping...`);  
+        if (!queue.autoplay) this.emit(Events.FINISH, queue);  
+        queue.remove();  
+        return;  
+      }  
+  
+      if (song !== queue.songs[0]) {  
+        const playedSong = song.stream.playFromSource ? song : song.stream.song;  
+        if (playedSong?.stream.playFromSource) delete playedSong.stream.url;  
+      }  
+      await this.playSong(queue, true);  
+    } finally {  
+      queue._taskQueue.resolve();  
+    }  
   }
 
   /**
