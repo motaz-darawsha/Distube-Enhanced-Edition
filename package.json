@@ -33,13 +33,13 @@
     "build": "tsup",
     "type": "tsc --noEmit",
     "update": "bun upgrade",
-    "prepare": "husky",
-    "prepublishOnly": "bun run lint && bun run test",
-    "prepack": "bun run build"
+    "prepare": "npm run build && husky install",
+    "prepublishOnly": "npm run lint && npm run test",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skick1234/DisTube.git"
+    "url": "git+https://github.com/motaz-darawsha/Distube-Enhanced-Edition.git"
   },
   "keywords": [
     "youtube",
@@ -54,10 +54,10 @@
     "music-bot",
     "discord-js"
   ],
-  "author": "Skick (https://github.com/skick1234)",
+  "author": "Motaz Darawsha <motaz@example.com> (Forked from Skick: https://github.com/skick1234/DisTube)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/skick1234/DisTube/issues"
+    "url": "https://github.com/motaz-darawsha/Distube-Enhanced-Edition/issues"
   },
   "funding": "https://github.com/skick1234/DisTube?sponsor",
   "homepage": "https://distube.js.org/",
