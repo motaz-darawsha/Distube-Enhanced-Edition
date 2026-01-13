@@ -102,7 +102,16 @@ export class DisTubeHandler extends DisTubeBase {
       if (!plugin) throw new DisTubeError("NOT_SUPPORTED_SONG", song.toString());  
       this.debug(`[${plugin.constructor.name}] Getting stream URL: ${song}`);  
       song.stream.url = await plugin.getStreamURL(song);  
-      song.stream.fetchedAt = Date.now();  
+        
+      const googleVideoUrl = song.stream.url;  
+      const expire = new URL(googleVideoUrl).searchParams.get('expire');  
+        
+      if (expire) {  
+        song.stream.urlExpiry = parseInt(expire) * 1000;  
+      } else {  
+        this.debug(`\x1b[33m[DisTubeHandler] Auto refresh disabled: No expire parameter found in URL for source: ${song.source}\x1b[0m`);  
+      }  
+        
       if (!song.stream.url) throw new DisTubeError("CANNOT_GET_STREAM_URL", song.toString());  
     } else {  
       if (song.stream.song?.stream?.playFromSource && song.stream.song.stream.url) return;  
@@ -115,7 +124,15 @@ export class DisTubeHandler extends DisTubeBase {
       const altSong = await this.#searchSong(query, { metadata: song.metadata, member: song.member }, true);  
       if (!altSong || !altSong.stream.playFromSource) throw new DisTubeError("NO_RESULT", query || song.toString());  
       song.stream.song = altSong;  
-      song.stream.fetchedAt = Date.now();  
+        
+      const altUrl = altSong.stream.url;  
+      const altExpire = altUrl ? new URL(altUrl).searchParams.get('expire') : null;  
+        
+      if (altExpire) {  
+        song.stream.urlExpiry = parseInt(altExpire) * 1000;  
+      } else {  
+        this.debug(`\x1b[33m[DisTubeHandler] Auto refresh disabled: No expire parameter found in URL for source: ${altSong.source}\x1b[0m`);  
+      }  
     }  
   }
 
