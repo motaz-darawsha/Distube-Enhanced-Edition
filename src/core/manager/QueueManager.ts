@@ -69,14 +69,14 @@ export class QueueManager extends GuildIdManager<Queue> {
       if (queue.stopped) return;  
       if (queue.repeatMode === RepeatMode.QUEUE) queue.songs.push(song);  
   
-      if (queue.repeatMode === RepeatMode.SONG && this.options.streamRefreshInterval > 0) {  
+      if (queue.repeatMode === RepeatMode.SONG && this.options.autoRefresh) {  
         const playedSong = song.stream.playFromSource ? song : song.stream.song;  
-        if (playedSong?.stream.playFromSource && playedSong.stream.fetchedAt) {  
-          const urlAge = Date.now() - playedSong.stream.fetchedAt;  
-          if (urlAge >= this.options.streamRefreshInterval) {  
+        if (playedSong?.stream.playFromSource && playedSong.stream.urlExpiry) {  
+          const now = Date.now();  
+          if (now >= playedSong.stream.urlExpiry - 120000) {  
             this.debug(`[QueueManager] Refreshing expired stream URL for song: ${song}`);  
             delete playedSong.stream.url;  
-            delete playedSong.stream.fetchedAt;  
+            delete playedSong.stream.urlExpiry;  
           }  
         }  
       }  
