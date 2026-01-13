@@ -1,48 +1,29 @@
+# DisTube Enhanced Edition
+
 <div align="center">
   <p>
-    <a href="https://www.npmjs.com/package/distube" target="_blank"><img src="https://nodei.co/npm/distube.png?downloads=true&downloadRank=true&stars=true"/></a>
+    <a href="https://github.com/motaz-darawsha/Distube-Enhanced-Edition">
+      <img src="https://img.shields.io/github/stars/motaz-darawsha/Distube-Enhanced-Edition?style=social" alt="GitHub stars">
+    </a>
+    <a href="https://github.com/motaz-darawsha/Distube-Enhanced-Edition">
+      <img src="https://img.shields.io/github/forks/motaz-darawsha/Distube-Enhanced-Edition?style=social" alt="GitHub forks">
+    </a>
+    <a href="https://github.com/motaz-darawsha/Distube-Enhanced-Edition">
+      <img src="https://img.shields.io/github/license/motaz-darawsha/Distube-Enhanced-Edition" alt="License">
+    </a>
   </p>
-  <p>
-    <a href="https://github.com/skick1234/DisTube/actions" target="_blank"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/skick1234/DisTube/test.yml?branch=main&label=Tests&logo=github&style=flat-square" /></a>
-    <a href="https://nodejs.org/" target="_blank"><img alt="node-current" src="https://img.shields.io/node/v/distube?logo=node.js&logoColor=white&style=flat-square"/></a>
-    <a href="https://discord.js.org/" target="_blank"><img alt="npm peer dependency version" src="https://img.shields.io/npm/dependency-version/distube/peer/discord.js?label=discord.js&logo=discord&logoColor=white&style=flat-square"/></a>
-    <a href="https://app.codecov.io/gh/skick1234/DisTube" target="_blank"><img alt="Codecov branch" src="https://img.shields.io/codecov/c/github/skick1234/DisTube/main?logo=codecov&logoColor=white&style=flat-square&token=WWDYRRSEQW"/></a>
-    <br/>
-    <a href="https://www.npmjs.com/package/distube" target="_blank"><img alt="npm" src="https://img.shields.io/npm/dt/distube?logo=npm&style=flat-square"/></a>
-    <a href="https://github.com/skick1234/DisTube/stargazers" target="_blank"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/skick1234/DisTube?logo=github&logoColor=white&style=flat-square"/></a>
-    <a href="https://discord.gg/feaDd9h" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/732254550689316914?logo=discord&logoColor=white&style=flat-square"/></a>
-  </p>
-  <p>
-    <a href='https://ko-fi.com/skick' target='_blank'><img height='48' src='https://storage.ko-fi.com/cdn/kofi3.png' alt='Buy Me a Coffee at ko-fi.com' /></a>
-  </p>
+  <h3>🎵 Enhanced Discord Music Library</h3>
+  <p><em>Forked from DisTube with Auto Refresh for uninterrupted streaming</em></p>
 </div>
 
-# DisTube
-
-DisTube is a comprehensive Discord music bot library built for [Discord.js](https://discord.js.org), offering simplified music commands, effortless playback from diverse sources, and integrated audio filters.
-
-## 🌟 Key Features
-
-- **Easy Integration**: Built on top of [discord.js](https://discord.js.org) v14 and [@discordjs/voice](https://discord.js.org).
-- **Voice Management**: Robust handling of voice connections and queue management.
-- **Audio Filters**: Built-in filters (bassboost, echo, karaoke, etc.) and custom filter support.
-- **Plugin System**: Extensible architecture supporting YouTube, Spotify, SoundCloud, and 700+ other sites.
-- **Type Safety**: Written in TypeScript for a superior development experience.
-
-## 📚 Resources
-
-| Resource | Description |
-| --- | --- |
-| [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/skick1234/DisTube) | Learn DisTube with AI-powered assistance. |
-| [Installation](https://deepwiki.com/skick1234/DisTube/Installation) | Detailed requirements and setup guide. |
-| [API Reference](https://distube.js.org/) | Complete technical documentation. |
-| [Discord Support](https://discord.gg/feaDd9h) | Join our community for help and discussion. |
-
-## 🚀 Quick Start
+## 📦 Installation
 
 ```bash
-npm install distube @discordjs/voice @discordjs/opus
+npm install https://github.com/motaz-darawsha/Distube-Enhanced-Edition.git
+npm install discord.js @discordjs/voice @discordjs/opus
 ```
+
+## 🚀 Quick Start
 
 ```javascript
 const { DisTube } = require('distube');
@@ -58,36 +39,170 @@ const client = new Client({
 });
 
 const distube = new DisTube(client, {
-  emitNewSongOnly: true,
+  autoRefresh: true, // 🆕 Auto refresh feature
 });
 
 distube.on('playSong', (queue, song) =>
-  queue.textChannel.send(`Playing \`${song.name}\` - \`${song.formatDuration()}\``)
+  queue.textChannel.send(`🎵 Playing: **${song.name}**`)
 );
 
 client.on('messageCreate', message => {
   if (message.content.startsWith('!play')) {
-    distube.play(message.member.voice.channel, message.content.slice(6), {
-      message,
-      textChannel: message.channel,
-      member: message.member,
-    });
+    distube.play(message.member.voice.channel, message.content.slice(6));
   }
 });
 
-client.login('TOKEN');
+client.login('YOUR_TOKEN');
 ```
 
-## 🤝 Contributing
+## ⚙️ Configuration Options
 
-Contributions are welcome! Please read our [Contributing Guidelines](https://github.com/skick1234/DisTube/blob/main/.github/CONTRIBUTING.md) before submitting a pull request.
+### Core Options [1](#19-0) 
 
-## 📄 License
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `plugins` | `DisTubePlugin[]` | `[]` | Music source plugins (YouTube, Spotify, etc.) |
+| `emitNewSongOnly` | `boolean` | `false` | Only emit `playSong` for new songs (not loops) |
+| `savePreviousSongs` | `boolean` | `true` | Enable song history and `previous()` method |
+| `customFilters` | `Filters` | `{}` | Custom FFmpeg audio filters |
+| `nsfw` | `boolean` | `false` | Allow age-restricted content |
+| `emitAddSongWhenCreatingQueue` | `boolean` | `true` | Emit `addSong` when creating new queue |
+| `emitAddListWhenCreatingQueue` | `boolean` | `true` | Emit `addList` when creating new queue |
+| `joinNewVoiceChannel` | `boolean` | `true` | Auto-join new voice channels |
+| `autoRefresh` | `boolean` | `false` | 🆕 Auto refresh stream URLs |
 
-Licensed under [MIT License](https://github.com/skick1234/DisTube/blob/main/LICENSE)
+### FFmpeg Options [2](#19-1) 
 
----
+```javascript
+ffmpeg: {
+  path?: string,        // FFmpeg executable path (default: "ffmpeg")
+  args?: {
+    global?: object,    // Global FFmpeg arguments
+    input?: object,     // Input-specific arguments  
+    output?: object     // Output-specific arguments
+  }
+}
+```
 
-<div align="center">
-  <a href='https://ko-fi.com/skick' target='_blank'><img height='48' src='https://storage.ko-fi.com/cdn/kofi3.png' alt='Support me on Ko-fi' /></a>
-</div>
+## 🔄 Auto Refresh Feature
+
+### Overview
+Automatically refreshes stream URLs before they expire during song loops, preventing interruptions.
+
+### How It Works [3](#19-2) 
+1. Extracts `expire` parameter from stream URLs
+2. Tracks expiry time with song metadata  
+3. Refreshes URLs 2 minutes before expiry
+4. Works only with `RepeatMode.SONG`
+
+### Example Usage
+```javascript
+const distube = new DisTube(client, {
+  autoRefresh: true // Enable auto refresh
+});
+
+// Play and loop a song
+await distube.play(voiceChannel, "https://youtube.com/watch?v=example");
+const queue = distube.getQueue(guildId);
+queue.setRepeatMode(RepeatMode.SONG); // Auto refresh activates
+```
+
+### Source Compatibility
+| Source | Support | Notes |
+|--------|---------|-------|
+| YouTube | ✅ Full | Extracts expire from URLs |
+| SoundCloud | ❌ None | No expire parameter |
+| Spotify | ❌ None | Uses alternative songs |
+
+## 📝 Complete Example
+
+```javascript
+const { DisTube, RepeatMode } = require('distube');
+const { Client, GatewayIntentBits } = require('discord.js');
+// import the plugins
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
+
+const distube = new DisTube(client, {
+  plugins: [
+    new YouTubePlugin(),
+    new SpotifyPlugin({ clientId: 'ID', clientSecret: 'SECRET' })
+  ],
+  autoRefresh: true,
+  emitNewSongOnly: true,
+  customFilters: {
+    bassboost: "bass=g=20",
+    nightcore: "asetrate=48000*1.25"
+  },
+  ffmpeg: {
+    args: {
+      global: { loglevel: "error" },
+      output: { acodec: "libopus" }
+    }
+  }
+});
+
+// Events
+distube
+  .on('playSong', (queue, song) => 
+    queue.textChannel.send(`🎵 **${song.name}** - \`${song.formattedDuration}\``)
+  )
+  .on('addSong', (queue, song) => 
+    queue.textChannel.send(`✅ Added **${song.name}** to queue`)
+  )
+  .on('error', (channel, error) => {
+    console.error(error);
+    channel.send(`❌ Error: ${error.message}`);
+  });
+
+// Commands
+client.on('messageCreate', async message => {
+  if (message.author.bot) return;
+  
+  const args = message.content.trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+  const queue = distube.getQueue(message.guildId);
+  
+  switch (command) {
+    case '!play':
+      if (!message.member.voice.channel) 
+        return message.reply('❌ Join a voice channel!');
+      await distube.play(message.member.voice.channel, args.join(' '));
+      break;
+      
+    case '!loop':
+      if (!queue) return message.reply('❌ No music playing!');
+      queue.setRepeatMode(RepeatMode.SONG);
+      message.reply('🔁 Looping current song');
+      break;
+      
+    case '!skip':
+      if (!queue) return message.reply('❌ No music playing!');
+      await queue.skip();
+      message.reply('⏭️ Skipped');
+      break;
+  }
+});
+
+client.login('YOUR_TOKEN');
+```
+
+## 📋 Requirements
+
+- **Node.js**: 22.12.0+
+- **discord.js**: v14
+- **FFmpeg**: System-wide installation required
+
+## Notes
+
+- Forked from original DisTube [4](#19-3) 
+- Auto Refresh disabled by default
+- Works only with `RepeatMode.SONG` [5](#19-4) 
+- Shows warnings for unsupported sources [6](#19-5) 
