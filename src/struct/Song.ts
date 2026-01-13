@@ -70,26 +70,16 @@ export class Song<T = unknown> {
   /**
    * Stream info
    */
-  stream:
-    | {
-        /**
-         * The stream of this song will be played from source
-         */
-        playFromSource: true;
-        /**
-         * Stream URL of this song
-         */
-        url?: string;
-      }
-    | {
-        /**
-         * The stream of this song will be played from another song
-         */
-        playFromSource: false;
-        /**
-         * The song that this song will be played from
-         */
-        song?: Song<T>;
+  stream:  
+    | {  
+        playFromSource: true;  
+        url?: string;  
+        fetchedAt?: number;  
+      }  
+    | {  
+        playFromSource: false;  
+        song?: Song<T>;  
+        fetchedAt?: number;  
       };
   /**
    * The plugin that created this song
