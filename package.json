@@ -1,106 +1,108 @@
-{
-  "name": "distube",
-  "version": "5.2.3",
-  "description": "A powerful Discord.js module for simplifying music commands and effortless playback of various sources with integrated audio filters.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
-    }
-  },
-  "directories": {
-    "lib": "src",
-    "test": "tests"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test": "vitest run",
-    "docs": "typedoc",
-    "lint": "biome ci .",
-    "lint:fix": "biome check --write --unsafe",
-    "format": "biome format --write",
-    "build": "tsup",
-    "type": "tsc --noEmit",
-    "update": "bun upgrade",
-    "prepare": "npm run build && husky install",
-    "prepublishOnly": "npm run lint && npm run test",
-    "prepack": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/motaz-darawsha/Distube-Enhanced-Edition.git"
-  },
-  "keywords": [
-    "youtube",
-    "music",
-    "discord",
-    "discordjs",
-    "bot",
-    "distube",
-    "queue",
-    "musicbot",
-    "discord-music-bot",
-    "music-bot",
-    "discord-js"
-  ],
-  "author": "Motaz Darawsha <motaz@example.com> (Forked from Skick: https://github.com/skick1234/DisTube)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/motaz-darawsha/Distube-Enhanced-Edition/issues"
-  },
-  "funding": "https://github.com/skick1234/DisTube?sponsor",
-  "homepage": "https://distube.js.org/",
-  "dependencies": {
-    "tiny-typed-emitter": "^2.1.0",
-    "undici": "^7.16.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.10",
-    "@commitlint/cli": "^20.2.0",
-    "@commitlint/config-conventional": "^20.2.0",
-    "@discordjs/opus": "^0.10.0",
-    "@discordjs/voice": "^0.19.0",
-    "@types/node": "^25.0.3",
-    "@types/tough-cookie": "^4.0.5",
-    "@vitest/coverage-v8": "^4.0.16",
-    "discord-api-types": "^0.38.37",
-    "discord.js": "^14.25.1",
-    "esbuild-plugin-version-injector": "^1.2.1",
-    "husky": "^9.1.7",
-    "nano-staged": "^0.9.0",
-    "tsup": "^8.5.1",
-    "typedoc": "^0.28.15",
-    "typedoc-material-theme": "^1.4.1",
-    "typedoc-plugin-extras": "^4.0.1",
-    "typescript": "^5.9.3",
-    "vite-tsconfig-paths": "^6.0.3",
-    "vitest": "^4.0.16"
-  },
-  "peerDependencies": {
-    "@discordjs/voice": "*",
-    "discord.js": "14"
-  },
-  "nano-staged": {
-    "*.{ts,js,json}": [
-      "biome check --write --no-errors-on-unmatched"
-    ]
-  },
-  "engines": {
-    "node": ">=22.12.0"
-  },
-  "trustedDependencies": [
-    "@discordjs/opus",
-    "esbuild"
-  ]
+{  
+  "name": "distube-enhanced-edition",  
+  "version": "5.2.3",  
+  "description": "A powerful Discord.js module for simplifying music commands with Auto Refresh feature for uninterrupted streaming during extended loop sessions.",  
+  "main": "./dist/index.js",  
+  "module": "./dist/index.mjs",  
+  "types": "./dist/index.d.ts",  
+  "exports": {  
+    ".": {  
+      "require": {  
+        "types": "./dist/index.d.ts",  
+        "default": "./dist/index.js"  
+      },  
+      "import": {  
+        "types": "./dist/index.d.mts",  
+        "default": "./dist/index.mjs"  
+      }  
+    }  
+  },  
+  "directories": {  
+    "lib": "src",  
+    "test": "tests"  
+  },  
+  "files": [  
+    "dist"  
+  ],  
+  "scripts": {  
+    "test": "vitest run",  
+    "docs": "typedoc",  
+    "lint": "biome ci .",  
+    "lint:fix": "biome check --write --unsafe",  
+    "format": "biome format --write",  
+    "build": "tsup",  
+    "type": "tsc --noEmit",  
+    "update": "bun upgrade",  
+    "prepare": "husky",  
+    "prepublishOnly": "bun run lint && bun run test",  
+    "prepack": "bun run build"  
+  },  
+  "repository": {  
+    "type": "git",  
+    "url": "git+https://github.com/motaz-darawsha/Distube-Enhanced-Edition.git"  
+  },  
+  "keywords": [  
+    "youtube",  
+    "music",  
+    "discord",  
+    "discordjs",  
+    "bot",  
+    "distube",  
+    "queue",  
+    "musicbot",  
+    "discord-music-bot",  
+    "music-bot",  
+    "discord-js",  
+    "auto-refresh",  
+    "streaming"  
+  ],  
+  "author": "MotazDarawsha (https://github.com/motaz-darawsha)",  
+  "license": "MIT",  
+  "bugs": {  
+    "url": "https://github.com/motaz-darawsha/Distube-Enhanced-Edition/issues"  
+  },  
+  "funding": "https://github.com/motaz-darawsha/Distube-Enhanced-Edition?sponsor",  
+  "homepage": "https://distube.js.org/",  
+  "dependencies": {  
+    "tiny-typed-emitter": "^2.1.0",  
+    "undici": "^7.16.0"  
+  },  
+  "devDependencies": {  
+    "@biomejs/biome": "^2.3.10",  
+    "@commitlint/cli": "^20.2.0",  
+    "@commitlint/config-conventional": "^20.2.0",  
+    "@discordjs/opus": "^0.10.0",  
+    "@discordjs/voice": "^0.19.0",  
+    "@types/node": "^25.0.3",  
+    "@types/tough-cookie": "^4.0.5",  
+    "@vitest/coverage-v8": "^4.0.16",  
+    "discord-api-types": "^0.38.37",  
+    "discord.js": "^14.25.1",  
+    "esbuild-plugin-version-injector": "^1.2.1",  
+    "husky": "^9.1.7",  
+    "nano-staged": "^0.9.0",  
+    "tsup": "^8.5.1",  
+    "typedoc": "^0.28.15",  
+    "typedoc-material-theme": "^1.4.1",  
+    "typedoc-plugin-extras": "^4.0.1",  
+    "typescript": "^5.9.3",  
+    "vite-tsconfig-paths": "^6.0.3",  
+    "vitest": "^4.0.16"  
+  },  
+  "peerDependencies": {  
+    "@discordjs/voice": "*",  
+    "discord.js": "14"  
+  },  
+  "nano-staged": {  
+    "*.{ts,js,json}": [  
+      "biome check --write --no-errors-on-unmatched"  
+    ]  
+  },  
+  "engines": {  
+    "node": ">=22.12.0"  
+  },  
+  "trustedDependencies": [  
+    "@discordjs/opus",  
+    "esbuild"  
+  ]  
 }
