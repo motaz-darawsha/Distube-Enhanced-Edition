@@ -33,7 +33,7 @@
     "build": "tsup",  
     "type": "tsc --noEmit",  
     "update": "bun upgrade",  
-    "prepare": "husky",  
+    "prepare": "npm run build && husky",  
     "prepublishOnly": "bun run lint && bun run test",  
     "prepack": "bun run build"  
   },  
