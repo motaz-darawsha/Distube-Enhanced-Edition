@@ -1,5 +1,5 @@
 {  
-  "name": "distube-enhanced-edition",  
+  "name": "distube",  
   "version": "5.2.3",  
   "description": "A powerful Discord.js module for simplifying music commands with Auto Refresh feature for uninterrupted streaming during extended loop sessions.",  
   "main": "./dist/index.js",  
