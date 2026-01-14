@@ -20,6 +20,8 @@
 
 ```bash
 npm install https://github.com/motaz-darawsha/Distube-Enhanced-Edition.git
+// or
+npm install github:motaz-darawsha/Distube-Enhanced-Edition
 npm install discord.js @discordjs/voice @discordjs/opus
 ```
 
